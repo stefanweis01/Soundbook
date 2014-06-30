@@ -25,6 +25,7 @@ import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Environment;
 import java.io.File;
+import android.media.MediaPlayer.OnCompletionListener;
 
 import java.io.IOException;
 
@@ -42,6 +43,8 @@ public class MyActivity extends Activity
      */
     private CharSequence mTitle;
     public String m_chosenDir = "";
+    public String[] files;
+    public int i = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,16 +60,7 @@ public class MyActivity extends Activity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
-        // Shared Preferences anlegen oder aufrufen
-
-        SharedPreferences settings = getSharedPreferences("MyPrefsFile", 0);
-        SharedPreferences.Editor editor = settings.edit();
-
-        //if (settings.getBoolean("firstStartup", false) == false) {
-
-        // TEST
-
-        // Choose Folder START
+        // Open folder chooser on startup to select the folder where the audiobooks are located
 
         boolean m_newFolderEnabled = true;
 
@@ -87,7 +81,7 @@ public class MyActivity extends Activity
                                     // TextView folderText = (TextView) findViewById(R.id.folderText);
 
                                     File dir = new File(dirPath);
-                                    String[] files = dir.list();
+                                    files = dir.list();
                                     if (files.length == 0) {
                                         files[0] = "";
                                     }
@@ -105,24 +99,20 @@ public class MyActivity extends Activity
             directoryChooserDialog.chooseDirectory(m_chosenDir);
             m_newFolderEnabled = ! m_newFolderEnabled;
 
-        // Choose Folder END
 
+        // Create media player if play button was clicked
 
-            // Folder selected, set in Shared Prefs
-
-            editor.putBoolean("firstStartup", true);
-            editor.commit();
-        //}
-
-    Button pausebutton = (Button) findViewById(R.id.pause);
-        pausebutton.setOnClickListener(new OnClickListener() {
+        Button playButton = (Button) findViewById(R.id.pl);
+        playButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 MediaPlayer player = new MediaPlayer();
-                System.out.print(m_chosenDir);
+
+                // Play first file in array
 
                 try {
-                    String filePath = "/storage/emulated/0/Music/runnin.mp3";
+                    String filePath = files[i];
                     player.setDataSource(filePath);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -135,6 +125,31 @@ public class MyActivity extends Activity
                 }
 
                 player.start();
+
+                // Play next file when previous media file ended
+
+                player.setOnCompletionListener(new OnCompletionListener() {
+                    public void onCompletion(MediaPlayer player) {
+
+                        i++;
+
+                        try {
+                            player.setDataSource(files[i]);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        try {
+                            player.prepare();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        player.start();
+
+                    }
+                });
+
             }
         });
 
