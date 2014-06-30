@@ -77,8 +77,9 @@ public class MyActivity extends Activity
                                             MyActivity.this, "Chosen directory: " +
                                                     chosenDir, Toast.LENGTH_LONG).show();
 
+                                    // write absolute path to file to string "dirPath"
+
                                     String dirPath = m_chosenDir + "/";
-                                    // TextView folderText = (TextView) findViewById(R.id.folderText);
 
                                     File dir = new File(dirPath);
                                     files = dir.list();
@@ -92,6 +93,7 @@ public class MyActivity extends Activity
                                     }
                                 }
                             });
+
             // Toggle new folder button enabling
             directoryChooserDialog.setNewFolderEnabled(m_newFolderEnabled);
             // Load directory chooser dialog for initial 'm_chosenDir' directory.
