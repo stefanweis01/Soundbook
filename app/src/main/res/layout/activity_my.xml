@@ -80,6 +80,14 @@
             android:minWidth="300dp"
             android:layout_gravity="center" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Medium Text"
+            android:id="@+id/folderText"
+            android:layout_gravity="center_horizontal|top" />
+
     </FrameLayout>
 
     <!-- android:layout_gravity="start" tells DrawerLayout to treat

@@ -60,10 +60,11 @@ public class MyActivity extends Activity
         SharedPreferences settings = getSharedPreferences("MyPrefsFile", 0);
         SharedPreferences.Editor editor = settings.edit();
 
-        if (settings.getBoolean("firstStartup", false) == false) {
+        //if (settings.getBoolean("firstStartup", false) == false) {
 
             // Choose Folder
             Button dirChooserButton1 = (Button) findViewById(R.id.pl);
+            final TextView folderText = (TextView) findViewById(R.id.folderText);
             dirChooserButton1.setOnClickListener(new OnClickListener()
             {
                 String m_chosen;
@@ -80,6 +81,8 @@ public class MyActivity extends Activity
                                 {
                                     // The code in this function will be executed when the dialog OK button is pushed
                                     m_chosen = chosenDir;
+                                    folderText.setText(m_chosen);
+
                                     Toast.makeText(MyActivity.this, "Chosen FileOpenDialog File: " +
                                             m_chosen, Toast.LENGTH_LONG).show();
                                 }
@@ -98,7 +101,7 @@ public class MyActivity extends Activity
 
             editor.putBoolean("firstStartup", true);
             editor.commit();
-        }
+        //}
 
     Button pausebutton = (Button) findViewById(R.id.pause);
         pausebutton.setOnClickListener(new OnClickListener() {
