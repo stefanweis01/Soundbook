@@ -24,6 +24,7 @@ import android.widget.Toast;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Environment;
+import java.io.File;
 
 import java.io.IOException;
 
@@ -63,40 +64,47 @@ public class MyActivity extends Activity
 
         //if (settings.getBoolean("firstStartup", false) == false) {
 
-            // Choose Folder
+        // Choose Folder START
 
-        Button dirChooserButton = (Button) findViewById(R.id.pl);
-        dirChooserButton.setOnClickListener(new OnClickListener()
+        boolean m_newFolderEnabled = true;
 
-        {
-
-            private boolean m_newFolderEnabled = true;
-
-            @Override
-            public void onClick(View v)
-            {
-                // Create DirectoryChooserDialog and register a callback
-                DirectoryChooserDialog directoryChooserDialog =
-                        new DirectoryChooserDialog(MyActivity.this,
-                                new DirectoryChooserDialog.ChosenDirectoryListener()
+            // Create DirectoryChooserDialog and register a callback
+            DirectoryChooserDialog directoryChooserDialog =
+                    new DirectoryChooserDialog(MyActivity.this,
+                            new DirectoryChooserDialog.ChosenDirectoryListener()
+                            {
+                                @Override
+                                public void onChosenDir(String chosenDir)
                                 {
-                                    @Override
-                                    public void onChosenDir(String chosenDir)
-                                    {
-                                        m_chosenDir = chosenDir;
-                                        Toast.makeText(
-                                                MyActivity.this, "Chosen directory: " +
-                                                        chosenDir, Toast.LENGTH_LONG).show();
+                                    m_chosenDir = chosenDir;
+                                    Toast.makeText(
+                                            MyActivity.this, "Chosen directory: " +
+                                                    chosenDir, Toast.LENGTH_LONG).show();
+
+                                    String dirPath = m_chosenDir + "/";
+                                    // TextView folderText = (TextView) findViewById(R.id.folderText);
+
+                                    File dir = new File(dirPath);
+                                    String[] files = dir.list();
+                                    if (files.length == 0) {
+                                        files[0] = "";
                                     }
-                                });
-                // Toggle new folder button enabling
-                directoryChooserDialog.setNewFolderEnabled(m_newFolderEnabled);
-                // Load directory chooser dialog for initial 'm_chosenDir' directory.
-                // The registered callback will be called upon final directory selection.
-                directoryChooserDialog.chooseDirectory(m_chosenDir);
-                m_newFolderEnabled = ! m_newFolderEnabled;
-            }
-        });
+                                    else {
+                                        for (int i = 0; i < files.length; i++) {
+                                            files[i] = dirPath + files[i];
+                                        }
+                                    }
+                                }
+                            });
+            // Toggle new folder button enabling
+            directoryChooserDialog.setNewFolderEnabled(m_newFolderEnabled);
+            // Load directory chooser dialog for initial 'm_chosenDir' directory.
+            // The registered callback will be called upon final directory selection.
+            directoryChooserDialog.chooseDirectory(m_chosenDir);
+            m_newFolderEnabled = ! m_newFolderEnabled;
+
+        // Choose Folder END
+
 
             // Folder selected, set in Shared Prefs
 
