@@ -40,6 +40,7 @@ public class MyActivity extends Activity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
+    public String m_chosenDir = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +69,7 @@ public class MyActivity extends Activity
         dirChooserButton.setOnClickListener(new OnClickListener()
 
         {
-            private String m_chosenDir = "";
+
             private boolean m_newFolderEnabled = true;
 
             @Override
@@ -108,6 +109,7 @@ public class MyActivity extends Activity
             @Override
             public void onClick(View view) {
                 MediaPlayer player = new MediaPlayer();
+                System.out.print(m_chosenDir);
 
                 try {
                     String filePath = "/storage/emulated/0/Music/runnin.mp3";
