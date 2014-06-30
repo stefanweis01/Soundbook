@@ -63,39 +63,39 @@ public class MyActivity extends Activity
         //if (settings.getBoolean("firstStartup", false) == false) {
 
             // Choose Folder
-            Button dirChooserButton1 = (Button) findViewById(R.id.pl);
-            final TextView folderText = (TextView) findViewById(R.id.folderText);
-            dirChooserButton1.setOnClickListener(new OnClickListener()
+
+        Button dirChooserButton = (Button) findViewById(R.id.pl);
+        dirChooserButton.setOnClickListener(new OnClickListener()
+
+        {
+            private String m_chosenDir = "";
+            private boolean m_newFolderEnabled = true;
+
+            @Override
+            public void onClick(View v)
             {
-                String m_chosen;
-                @Override
-                public void onClick(View v) {
-                    /////////////////////////////////////////////////////////////////////////////////////////////////
-                    //Create FileOpenDialog and register a callback
-                    /////////////////////////////////////////////////////////////////////////////////////////////////
-                    DirectoryChooserDialog FileOpenDialog =  new DirectoryChooserDialog(MyActivity.this, "FileOpen",
-                            new DirectoryChooserDialog.SimpleFileDialogListener()
-                            {
-                                @Override
-                                public void onChosenDir(String chosenDir)
+                // Create DirectoryChooserDialog and register a callback
+                DirectoryChooserDialog directoryChooserDialog =
+                        new DirectoryChooserDialog(MyActivity.this,
+                                new DirectoryChooserDialog.ChosenDirectoryListener()
                                 {
-                                    // The code in this function will be executed when the dialog OK button is pushed
-                                    m_chosen = chosenDir;
-                                    folderText.setText(m_chosen);
-
-                                    Toast.makeText(MyActivity.this, "Chosen FileOpenDialog File: " +
-                                            m_chosen, Toast.LENGTH_LONG).show();
-                                }
-                            });
-
-                    //You can change the default filename using the public variable "Default_File_Name"
-                    FileOpenDialog.Default_File_Name = "";
-                    FileOpenDialog.chooseFile_or_Dir();
-
-                    /////////////////////////////////////////////////////////////////////////////////////////////////
-
-                }
-            });
+                                    @Override
+                                    public void onChosenDir(String chosenDir)
+                                    {
+                                        m_chosenDir = chosenDir;
+                                        Toast.makeText(
+                                                MyActivity.this, "Chosen directory: " +
+                                                        chosenDir, Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                // Toggle new folder button enabling
+                directoryChooserDialog.setNewFolderEnabled(m_newFolderEnabled);
+                // Load directory chooser dialog for initial 'm_chosenDir' directory.
+                // The registered callback will be called upon final directory selection.
+                directoryChooserDialog.chooseDirectory(m_chosenDir);
+                m_newFolderEnabled = ! m_newFolderEnabled;
+            }
+        });
 
             // Folder selected, set in Shared Prefs
 
@@ -110,7 +110,7 @@ public class MyActivity extends Activity
                 MediaPlayer player = new MediaPlayer();
 
                 try {
-                    String filePath = Environment.getExternalStorageDirectory() + "/Music/Airbourne/RunninWild/runnin.mp3";
+                    String filePath = "/storage/emulated/0/Music/Airbourne/RunninWild/runnin.mp3";
                     player.setDataSource(filePath);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -123,7 +123,6 @@ public class MyActivity extends Activity
                 }
 
                 player.start();
-                //Hallo
             }
         });
 
