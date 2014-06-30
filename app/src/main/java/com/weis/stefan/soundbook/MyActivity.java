@@ -110,7 +110,7 @@ public class MyActivity extends Activity
                 MediaPlayer player = new MediaPlayer();
 
                 try {
-                    String filePath = "/storage/emulated/0/Music/Airbourne/RunninWild/runnin.mp3";
+                    String filePath = "/storage/emulated/0/Music/runnin.mp3";
                     player.setDataSource(filePath);
                 } catch (IOException e) {
                     e.printStackTrace();
