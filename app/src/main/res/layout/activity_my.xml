@@ -1,0 +1,99 @@
+<!-- A DrawerLayout is intended to be used as the top-level content view using match_parent for both width and height to consume the full space available. -->
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MyActivity">
+
+    <!-- As the main content view, the view below consumes the entire
+         space available using match_parent in both dimensions. -->
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="bottom"
+            >
+
+            <Button android:layout_width="0dp"
+                android:layout_weight=".33"
+                android:layout_height="wrap_content"
+                android:text="fr"
+                android:id="@+id/fr"
+                android:layout_gravity="bottom"/>
+
+            <Button android:layout_width="0dp"
+                android:layout_weight=".33"
+                android:layout_height="wrap_content"
+                android:text="r"
+                android:id="@+id/r"
+                android:layout_gravity="bottom"/>
+
+            <Button android:layout_width="0dp"
+                android:layout_weight=".33"
+                android:layout_height="wrap_content"
+                android:text="Pl"
+                android:id="@+id/pl"
+                android:layout_gravity="bottom"/>
+
+            <Button android:layout_width="0dp"
+                android:layout_weight=".33"
+                android:layout_height="wrap_content"
+                android:text="Pa"
+                android:id="@+id/pause"
+                android:layout_gravity="bottom"/>
+
+            <Button android:layout_width="0dp"
+                android:layout_weight=".33"
+                android:layout_height="wrap_content"
+                android:text="f"
+                android:id="@+id/f"
+                android:layout_gravity="bottom"/>
+
+            <Button android:layout_width="0dp"
+                android:layout_weight=".33"
+                android:layout_height="wrap_content"
+                android:text="ff"
+                android:id="@+id/ff"
+                android:layout_gravity="bottom"/>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/myImageView"
+            android:layout_width="198dp"
+            android:layout_height="264dp"
+            android:layout_alignLeft="@+id/pl"
+            android:layout_alignTop="@+id/pl"
+            android:layout_alignRight="@+id/pl"
+            android:layout_alignBottom="@+id/pl"
+            android:layout_margin="1dp"
+            android:gravity="center"
+            android:src="@drawable/zep"
+            android:maxHeight="300dp"
+            android:maxWidth="300dp"
+            android:minHeight="300dp"
+            android:minWidth="300dp"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
+
+    <!-- android:layout_gravity="start" tells DrawerLayout to treat
+         this as a sliding drawer on the left side for left-to-right
+         languages and on the right side for right-to-left languages.
+         If you're not building against API 17 or higher, use
+         android:layout_gravity="left" instead. -->
+    <!-- The drawer is given a fixed width in dp and extends the full height of
+         the container. -->
+    <fragment android:id="@+id/navigation_drawer"
+        android:layout_width="@dimen/navigation_drawer_width"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:name="com.weis.stefan.soundbook.NavigationDrawerFragment"
+        tools:layout="@layout/fragment_navigation_drawer" />
+
+</android.support.v4.widget.DrawerLayout>
