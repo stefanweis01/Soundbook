@@ -64,6 +64,8 @@ public class MyActivity extends Activity
 
         //if (settings.getBoolean("firstStartup", false) == false) {
 
+        // TEST
+
         // Choose Folder START
 
         boolean m_newFolderEnabled = true;
