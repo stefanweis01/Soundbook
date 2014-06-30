@@ -120,6 +120,7 @@ public class MyActivity extends Activity
                 }
 
                 player.start();
+                //Hallo
             }
         });
 
