@@ -26,6 +26,7 @@ import android.media.MediaPlayer;
 import android.os.Environment;
 import java.io.File;
 import android.media.MediaPlayer.OnCompletionListener;
+import android.util.Log;
 
 import java.io.IOException;
 
@@ -131,23 +132,27 @@ public class MyActivity extends Activity
                 // Play next file when previous media file ended
 
                 player.setOnCompletionListener(new OnCompletionListener() {
-                    public void onCompletion(MediaPlayer player) {
+                    public void onCompletion(MediaPlayer mp) {
 
+                        Log.i("Completion Listener","Song Complete");
+
+                        mp.stop();
+                        mp.reset();
                         i++;
 
                         try {
-                            player.setDataSource(files[i]);
+                            mp.setDataSource(files[i]);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
 
                         try {
-                            player.prepare();
+                            mp.prepare();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
 
-                        player.start();
+                        mp.start();
 
                     }
                 });
