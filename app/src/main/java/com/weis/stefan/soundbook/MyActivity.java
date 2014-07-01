@@ -6,9 +6,11 @@ import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -46,6 +48,7 @@ public class MyActivity extends Activity
     public String m_chosenDir = "";
     public String[] files;
     public int i = 0;
+    public int position = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +67,7 @@ public class MyActivity extends Activity
         // Open folder chooser on startup to select the folder where the audiobooks are located
 
         boolean m_newFolderEnabled = true;
+        final Intent listIntent = new Intent(this, ListActivity.class);
 
             // Create DirectoryChooserDialog and register a callback
             DirectoryChooserDialog directoryChooserDialog =
@@ -102,32 +106,69 @@ public class MyActivity extends Activity
             directoryChooserDialog.chooseDirectory(m_chosenDir);
             m_newFolderEnabled = ! m_newFolderEnabled;
 
+        final MediaPlayer player = new MediaPlayer();
 
-        // Create media player if play button was clicked
+        // Pause music if pause button was clicked
+
+        Button pauseButton = (Button) findViewById(R.id.pause);
+        pauseButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (player.isPlaying()) {
+                    position = player.getCurrentPosition();
+                    player.pause();
+                }
+            }
+        });
+
+        // Open ListActivity when List-Botton is clicked
+
+        Button listbutton = (Button) findViewById(R.id.listbutton);
+        listbutton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(listIntent);
+
+            }
+        });
+
+        // Start or continue playing music if play button was clicked
 
         Button playButton = (Button) findViewById(R.id.pl);
         playButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                MediaPlayer player = new MediaPlayer();
-
                 // Play first file in array
 
-                try {
+                try
+                {
                     String filePath = files[i];
-                    player.setDataSource(filePath);
-                } catch (IOException e) {
+
+                    if (position == 0)
+                        player.setDataSource(filePath);
+                }
+
+                catch (IOException e)
+                {
                     e.printStackTrace();
                 }
 
-                try {
-                    player.prepare();
-                } catch (IOException e) {
+                try
+                {
+                    if (position == 0)
+                        player.prepare();
+                }
+                catch (IOException e)
+                {
                     e.printStackTrace();
                 }
 
+                player.seekTo(position);
                 player.start();
+
 
                 // Play next file when previous media file ended
 
@@ -140,19 +181,21 @@ public class MyActivity extends Activity
                         mp.reset();
                         i++;
 
-                        try {
-                            mp.setDataSource(files[i]);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        if (i <= files.length) {
+                            try {
+                                mp.setDataSource(files[i]);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
 
-                        try {
-                            mp.prepare();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                            try {
+                                mp.prepare();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
 
-                        mp.start();
+                            mp.start();
+                        }
 
                     }
                 });

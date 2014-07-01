@@ -4,34 +4,22 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import com.weis.stefan.soundbook.R;
-import java.util.Timer;
-import android.content.Intent;
-import android.os.Handler;
-import android.view.Window;
+import android.widget.ListView;
+import android.widget.ArrayAdapter;
+import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
 
-public class StartActivity extends Activity {
+import com.weis.stefan.soundbook.R;
+
+public class ListActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
-        getActionBar().hide();
+        setContentView(R.layout.activity_list);
 
-        setContentView(R.layout.activity_start);
-
-        // Start MainActivity after 2 seconds
-
-        final Intent intent = new Intent(this, MyActivity.class);
-
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                startActivity(intent);
-            }
-        }, 2000);
+        ListView list = (ListView)findViewById(R.id.listView);
 
     }
 
@@ -39,7 +27,7 @@ public class StartActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.start, menu);
+        getMenuInflater().inflate(R.menu.list, menu);
         return true;
     }
 

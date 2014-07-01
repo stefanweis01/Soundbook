@@ -61,6 +61,16 @@
                 android:text="ff"
                 android:id="@+id/ff"
                 android:layout_gravity="bottom"/>
+
+            <Button android:layout_width="0dp"
+                android:layout_weight=".33"
+                android:layout_height="wrap_content"
+                android:text="List"
+                android:id="@+id/listbutton"
+                android:layout_alignLeft="@+id/ff"
+                android:layout_alignTop="@+id/ff"
+                android:layout_alignRight="@+id/ff"
+                android:layout_alignBottom="@+id/ff" />
         </LinearLayout>
 
         <ImageView
